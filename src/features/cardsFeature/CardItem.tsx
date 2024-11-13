@@ -8,26 +8,61 @@ import {
   IconButton,
   Box,
 } from '@mui/material';
+import { SyntheticEvent, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch } from '@/app/store/store';
 import { TCharacter } from '@/types';
+import { removeProduct } from './cardsSlice';
 
 interface CardItemProps {
   character: TCharacter;
-  onLike: () => void;
-  onDelete: () => void;
 }
 
-const CardItem: React.FC<CardItemProps> = ({ character, onLike, onDelete }) => {
+const CardItem: React.FC<CardItemProps> = ({ character }) => {
+  const [liked, setLiked] = useState(false);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    setLiked(favorites.includes(character.id));
+  }, [character.id]);
+
+  const handleLikeClick = (event: SyntheticEvent) => {
+    event.stopPropagation();
+
+    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+
+    if (favorites.includes(character.id)) {
+      const updatedFavorites = favorites.filter(
+        (id: string) => id !== character.id,
+      );
+      localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+      setLiked(false);
+    } else {
+      favorites.push(character.id);
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+      setLiked(true);
+    }
+  };
+
+  const handleDeleteClick = (event: SyntheticEvent) => {
+    event.stopPropagation();
+    dispatch(removeProduct(character.id));
+  };
+
   return (
-    <Link to={`/${character.id}`} style={{ textDecoration: 'none' }}>
-      <Card
-        sx={{
-          transition: 'transform 0.3s, box-shadow 0.3s',
-          '&:hover': {
-            transform: 'scale(1.05)',
-            boxShadow: '0px 0px 10px 10px rgba(0, 0, 0, 0.2)',
-          },
-        }}
+    <Card
+      sx={{
+        transition: 'transform 0.3s, box-shadow 0.3s',
+        '&:hover': {
+          transform: 'scale(1.05)',
+          boxShadow: '0px 0px 10px 10px rgba(0, 0, 0, 0.2)',
+        },
+      }}
+    >
+      <Link
+        to={`/${character.id}`}
+        style={{ textDecoration: 'none', color: 'black' }}
       >
         <CardMedia
           component="img"
@@ -43,16 +78,24 @@ const CardItem: React.FC<CardItemProps> = ({ character, onLike, onDelete }) => {
             {character.species} - {character.status}
           </Typography>
         </CardContent>
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', padding: 1 }}>
-          <IconButton onClick={onLike} color="default">
-            <FavoriteIcon />
-          </IconButton>
-          <IconButton onClick={onDelete} color="error">
-            <DeleteIcon />
-          </IconButton>
-        </Box>
-      </Card>
-    </Link>
+      </Link>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', padding: 1 }}>
+        <IconButton
+          onClick={handleLikeClick}
+          color={liked ? 'error' : 'default'}
+          component="button"
+        >
+          <FavoriteIcon />
+        </IconButton>
+        <IconButton
+          onClick={handleDeleteClick}
+          color="primary"
+          component="button"
+        >
+          <DeleteIcon />
+        </IconButton>
+      </Box>
+    </Card>
   );
 };
 

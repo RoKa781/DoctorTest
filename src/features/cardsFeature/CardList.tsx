@@ -8,31 +8,33 @@ interface CardListProps {
 
 const CardList: React.FC<CardListProps> = ({ characters }) => {
   return (
-    <List>
-      <Grid2
-        container
-        spacing={2}
+    <>
+      <List
         sx={{
           backgroundColor: '#f0e7e6',
-          padding: '20px',
-          borderRadius: '8px',
+          mt: 2,
         }}
       >
-        {characters.map((character) => (
-          <Grid2
-            size={{ xs: 12, sm: 6, md: 4, xl: 3 }}
-            key={character.id}
-            component="article"
-          >
-            <CardItem
-              onLike={() => {}}
-              onDelete={() => {}}
-              character={character}
-            />
-          </Grid2>
-        ))}
-      </Grid2>
-    </List>
+        <Grid2
+          container
+          spacing={2}
+          sx={{
+            padding: '20px',
+            borderRadius: '8px',
+          }}
+        >
+          {characters.map((character) => (
+            <Grid2
+              size={{ xs: 12, sm: 6, md: 4, xl: 3 }}
+              key={character.id}
+              component="article"
+            >
+              <CardItem character={character} />
+            </Grid2>
+          ))}
+        </Grid2>
+      </List>
+    </>
   );
 };
 
