@@ -12,6 +12,7 @@ import { SyntheticEvent, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from '@/app/store/store';
 import { TCharacter } from '@/types';
+import { LocalStorageService } from '@/utils/localStorageService';
 import { removeProduct } from './cardsSlice';
 
 interface CardItemProps {
@@ -30,17 +31,11 @@ const CardItem: React.FC<CardItemProps> = ({ character }) => {
   const handleLikeClick = (event: SyntheticEvent) => {
     event.stopPropagation();
 
-    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-
-    if (favorites.includes(character.id)) {
-      const updatedFavorites = favorites.filter(
-        (id: string) => id !== character.id,
-      );
-      localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+    if (liked) {
+      LocalStorageService.removeFromFavorites(character.id);
       setLiked(false);
     } else {
-      favorites.push(character.id);
-      localStorage.setItem('favorites', JSON.stringify(favorites));
+      LocalStorageService.addToFavorites(character.id);
       setLiked(true);
     }
   };

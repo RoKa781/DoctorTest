@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { AxiosError } from 'axios';
 import axiosConfig from '@/config/axiosConfig';
 import { TCharacter, TStatus } from '@/types';
 
@@ -16,9 +17,17 @@ const initialState: ProductState = {
 
 export const fetchProduct = createAsyncThunk(
   'product/fetchProduct',
-  async (id: string) => {
-    const response = await axiosConfig.get(`character/${id}`);
-    return response.data;
+  async (id: string, { rejectWithValue }) => {
+    try {
+      const response = await axiosConfig.get(`character/${id}`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error instanceof AxiosError
+          ? error.response?.data
+          : 'Неизвестная ошибка',
+      );
+    }
   },
 );
 

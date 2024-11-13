@@ -1,3 +1,4 @@
+// AddProductPage.tsx
 import { TextField, Button, Box, Typography, Alert } from '@mui/material';
 import { nanoid } from '@reduxjs/toolkit';
 import { useState } from 'react';
@@ -5,22 +6,24 @@ import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import AppLayout from '@/app/AppLayout';
 import { addProduct } from '@/features/cardsFeature/cardsSlice';
+import { validateProductForm, ProductFormData } from '@/utils/validation';
 
 const AddProductPage = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<ProductFormData>({
     name: '',
     species: '',
     price: '',
     image: '',
   });
 
-  const [errors, setErrors] = useState({
+  const [errors, setErrors] = useState<Record<keyof ProductFormData, string>>({
     name: '',
     species: '',
     price: '',
+    image: '',
   });
 
   const [successMessage, setSuccessMessage] = useState('');
@@ -36,28 +39,12 @@ const AddProductPage = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const validationErrors = { name: '', species: '', price: '' };
-    let formIsValid = true;
-
-    if (!formData.name) {
-      validationErrors.name = 'Название продукта обязательно';
-      formIsValid = false;
-    }
-
-    if (!formData.species) {
-      validationErrors.species = 'Описание продукта обязательно';
-      formIsValid = false;
-    }
-
-    if (!formData.price) {
-      validationErrors.price = 'Цена продукта обязательна';
-      formIsValid = false;
-    } else if (isNaN(Number(formData.price)) || Number(formData.price) <= 0) {
-      validationErrors.price = 'Цена должна быть числом и больше нуля';
-      formIsValid = false;
-    }
-
+    const validationErrors = validateProductForm(formData);
     setErrors(validationErrors);
+
+    const formIsValid = Object.values(validationErrors).every(
+      (error) => error === '',
+    );
 
     if (formIsValid) {
       dispatch(
@@ -72,7 +59,7 @@ const AddProductPage = () => {
 
       setSuccessMessage('Продукт успешно добавлен!');
       setFormData({ name: '', species: '', price: '', image: '' });
-      setErrors({ name: '', species: '', price: '' });
+      setErrors({ name: '', species: '', price: '', image: '' });
     }
   };
 
@@ -138,8 +125,8 @@ const AddProductPage = () => {
             name="image"
             value={formData.image}
             onChange={handleChange}
-            error={Boolean(errors.species)}
-            helperText={errors.species}
+            error={Boolean(errors.image)}
+            helperText={errors.image}
             sx={{ mb: 2 }}
           />
 
