@@ -24,9 +24,9 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<MainPage prevPath={prevPathname.current} />} />
-      <Route path="/:id" element={<ProductPage />} />
+      <Route path="/products/:id" element={<ProductPage />} />
       <Route path="/product-create" element={<AddProductPage />} />
-      <Route path='*' element={<NotFoundPage />} />
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 }

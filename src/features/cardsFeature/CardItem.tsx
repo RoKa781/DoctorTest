@@ -56,7 +56,7 @@ const CardItem: React.FC<CardItemProps> = ({ character }) => {
       }}
     >
       <Link
-        to={`/${character.id}`}
+        to={`/products/${character.id}`}
         style={{ textDecoration: 'none', color: 'black' }}
       >
         <CardMedia

@@ -13,7 +13,7 @@ const CardList: React.FC<CardListProps> = ({ characters }) => {
         sx={{
           backgroundColor: '#f0e7e6',
           mt: 2,
-          borderRadius: '8px'
+          borderRadius: '8px',
         }}
       >
         <Grid2

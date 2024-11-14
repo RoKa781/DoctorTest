@@ -32,7 +32,7 @@ createRoot(document.getElementById('root')!).render(
     <Provider store={store}>
       <BrowserRouter
         future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
-        basename="/DoctorTest/products"
+        basename="/DoctorTest"
       >
         <ThemeProvider theme={theme}>
           <App />
