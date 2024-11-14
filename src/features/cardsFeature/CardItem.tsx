@@ -1,4 +1,4 @@
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from '@mui/icons-material/DeleteTwoTone';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import {
   Card,

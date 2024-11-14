@@ -81,7 +81,7 @@ const FilterControls = () => {
       display="flex"
       flexDirection="column"
       gap={2}
-      sx={{ backgroundColor: 'white', padding: 2 }}
+      sx={{ backgroundColor: 'white', padding: 2, borderRadius: '8px' }}
     >
       <Grid2 container spacing={2} direction={{ xs: 'column', sm: 'row' }}>
         <Grid2 size={{ xs: 12, sm: 3 }}>

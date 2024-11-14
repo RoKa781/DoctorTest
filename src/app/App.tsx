@@ -4,6 +4,7 @@ import './App.css';
 import { fetchFavorites } from '@/features/favoritesFeature/favoritesSlice';
 import AddProductPage from '@/pages/AddProductPage';
 import MainPage from '@/pages/MainPage';
+import NotFoundPage from '@/pages/NotFound404Page';
 import ProductPage from '@/pages/ProductPage';
 import { useDispatch } from './store/store';
 
@@ -25,6 +26,7 @@ function App() {
       <Route path="/" element={<MainPage prevPath={prevPathname.current} />} />
       <Route path="/:id" element={<ProductPage />} />
       <Route path="/product-create" element={<AddProductPage />} />
+      <Route path='*' element={<NotFoundPage />} />
     </Routes>
   );
 }

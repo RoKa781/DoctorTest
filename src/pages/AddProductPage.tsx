@@ -1,4 +1,3 @@
-// AddProductPage.tsx
 import { TextField, Button, Box, Typography, Alert } from '@mui/material';
 import { nanoid } from '@reduxjs/toolkit';
 import { useState } from 'react';

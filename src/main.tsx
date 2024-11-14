@@ -22,6 +22,9 @@ const theme = createTheme({
       contrastText: '#FFFFFF',
     },
   },
+  typography: {
+    fontFamily: `'Oswald', sans-serif`,
+  },
 });
 
 createRoot(document.getElementById('root')!).render(
